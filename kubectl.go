@@ -1,5 +1,5 @@
 /*
-Copyright 2021 The Kubernetes Authors.
+Copyright 2014 The Kubernetes Authors.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,4 +14,21 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package main // import "k8s.io/kubectl"
+package main
+
+import (
+	"k8s.io/component-base/cli"
+	"k8s.io/kubectl/pkg/cmd"
+	"k8s.io/kubectl/pkg/cmd/util"
+
+	// Import to initialize client auth plugins.
+	_ "k8s.io/client-go/plugin/pkg/client/auth"
+)
+
+func main() {
+	command := cmd.NewDefaultKubectlCommand()
+	if err := cli.RunNoErrOutput(command); err != nil {
+		// Pretty-print the error and exit with an error.
+		util.CheckErr(err)
+	}
+}
